@@ -11,6 +11,12 @@
 #define UTF_INVALID 0xFFFD
 #define UTF_SIZ     4
 
+/*
+    0xxx xxxx                                           0x 00
+    110x xxxx    10xx xxxx                              0x C0 00
+    1110 xxxx    10xx xxxx    10xx xxxx                 0x E0 00 00
+    1111 0xxx    10xx xxxx    10xx xxxx    10xx xxxx    0x F0 00 00 00
+*/
 static const unsigned char utfbyte[UTF_SIZ + 1] = {0x80,    0, 0xC0, 0xE0, 0xF0};
 static const unsigned char utfmask[UTF_SIZ + 1] = {0xC0, 0x80, 0xE0, 0xF0, 0xF8};
 static const long utfmin[UTF_SIZ + 1] = {       0,    0,  0x80,  0x800,  0x10000};
@@ -35,12 +41,15 @@ utf8validate(long *u, size_t i)
 	return i;
 }
 
-static size_t
-utf8decode(const char *c, long *u, size_t clen)
-{
+
+// 初步推测返回的是utf8编码的字节数
+// u 的是一个变量 初始为0
+// clen 的实参是UTF_SIZE 4
+static size_t utf8decode(const char *c, long *u, size_t clen) {
 	size_t i, j, len, type;
 	long udecoded;
 
+    // *u = 0xFF FD
 	*u = UTF_INVALID;
 	if (!clen)
 		return 0;
@@ -80,22 +89,24 @@ drw_create(Display *dpy, int screen, Window root, unsigned int w, unsigned int h
 	return drw;
 }
 
-void
-drw_resize(Drw *drw, unsigned int w, unsigned int h)
-{
+// 三个参数: 绘制 宽 高
+// 调整宽高
+void drw_resize(Drw *drw, unsigned int w, unsigned int h) {
 	if (!drw)
 		return;
 
 	drw->w = w;
 	drw->h = h;
+    
+    // 可以绘制
 	if (drw->drawable)
 		XFreePixmap(drw->dpy, drw->drawable);
 	drw->drawable = XCreatePixmap(drw->dpy, drw->root, w, h, drw->depth);
 }
 
-void
-drw_free(Drw *drw)
-{
+
+// 释放drw
+void drw_free(Drw *drw) {
 	XFreePixmap(drw->dpy, drw->drawable);
 	XFreeGC(drw->dpy, drw->gc);
 	free(drw);
@@ -103,6 +114,7 @@ drw_free(Drw *drw)
 
 /* This function is an implementation detail. Library users should use
  * drw_fontset_create instead.
+ * 这个函数是一个实现细节,库用户应该改用 drw_fontset_create 
  */
 static Fnt *
 xfont_create(Drw *drw, const char *fontname, FcPattern *fontpattern)
@@ -225,18 +237,19 @@ drw_scm_create(Drw *drw, const char *clrnames[], const unsigned int alphas[], si
 	return ret;
 }
 
-void
-drw_setfontset(Drw *drw, Fnt *set)
-{
+/* 修改drw的字体集为 fontset */
+void drw_setfontset(Drw *drw, Fnt *fontset) {
 	if (drw)
-		drw->fonts = set;
+		drw->fonts = fontset;
+    return;
 }
 
-void
-drw_setscheme(Drw *drw, Clr *scm)
-{
+
+/* 修改drw的主题为scm */
+void drw_setscheme(Drw *drw, Clr *scheme) {
 	if (drw)
-		drw->scheme = scm;
+		drw->scheme = scheme;
+    return;
 }
 
 void
@@ -426,9 +439,9 @@ drw_cur_create(Drw *drw, int shape)
 	return cur;
 }
 
-void
-drw_cur_free(Drw *drw, Cur *cursor)
-{
+
+// 释放鼠标
+void drw_cur_free(Drw *drw, Cur *cursor) {
 	if (!cursor)
 		return;
 
