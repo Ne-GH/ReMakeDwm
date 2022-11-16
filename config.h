@@ -76,12 +76,12 @@ static const char *comptoncmd1[]  = { "killall","compton", NULL }; // kill compt
 
 // static const char *comptoncmd2[] = { "if","ps","-A|","grep","compton",";then","killall","compton",";else","compton","-b",";fi",NULL };  // kill compton ,so will kill background<]
 static const char *comptoncmd2[]  = { "compton", "-b", NULL };
-static const char *firefox[]  = { "firefox", NULL };
-// static const char *clionx[] = {"nohup","clion",">/dev/null","2>&1","&",NULL};
-// static const char *clion[] = { "/home/yongheng/StartClion", NULL };
-static const char *clion[] = {"/home/yongheng/Projects/Tools/StartClion.sh",NULL};
-static const char *qtcreator[] = {"/home/yongheng/Projects/Tools/StartQTCreator.sh",NULL};
 static const char scratchpadname[] = "scratchpad";
+
+
+static const char *Firefox[]  = { "firefox", NULL };
+static const char *Clion[] = {"/home/yongheng/Projects/Tools/StartClion.sh",NULL};
+static const char *Qtcreator[] = {"/home/yongheng/Projects/Tools/StartQTCreator.sh",NULL};
 static const char *SoundUp[] = {"/home/yongheng/Projects/Tools/Sound/SoundUp.sh",NULL};
 static const char *SoundDown[] = {"/home/yongheng/Projects/Tools/Sound/SoundDown.sh",NULL};
 static const char *Pycharm[] = {"pycharm",NULL};
@@ -90,12 +90,15 @@ static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "85x25"
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_c,      spawn,          {.v = clion } },
+
+	{ MODKEY,                       XK_c,      spawn,          {.v = Clion } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = Pycharm } },
-	{ MODKEY,                       XK_q,      spawn,          {.v = qtcreator } },
-	{ MODKEY,                       XK_g,      spawn,          {.v = firefox } },
+	{ MODKEY,                       XK_q,      spawn,          {.v = Qtcreator } },
+	{ MODKEY,                       XK_g,      spawn,          {.v = Firefox } },
 	{ MODKEY|ControlMask,           XK_q,      spawn,          {.v = SoundDown } },
 	{ MODKEY|ControlMask,           XK_e,      spawn,          {.v = SoundUp } },
+
+
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },

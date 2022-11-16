@@ -426,9 +426,8 @@ drw_font_getexts(Fnt *font, const char *text, unsigned int len, unsigned int *w,
 		*h = font->h;
 }
 
-Cur *
-drw_cur_create(Drw *drw, int shape)
-{
+// 创建drw 鼠标, shape 参数确定鼠标形状
+Cur * drw_cur_create(Drw *drw, int shape) {
 	Cur *cur;
 
 	if (!drw || !(cur = ecalloc(1, sizeof(Cur))))

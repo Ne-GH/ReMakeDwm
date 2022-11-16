@@ -60,14 +60,14 @@
 #define OPAQUE                  0xffU
 
 /* enums */
-enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor,光标 */
-enum { SchemeNorm, SchemeSel }; /* color schemes ,颜色主题*/
+enum { CurNormal, CurResize, CurMove, CurLast };                /* cursor,光标 */
+enum { SchemeNorm, SchemeSel };                                 /* color schemes ,颜色主题*/
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
-       NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
-enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast }; /* default atoms,默认原子 */
+       NetWMWindowTypeDialog, NetClientList, NetLast };         /* EWMH atoms */
+enum { WMProtocols, WMDelete, WMState, WMTakeFocus, WMLast };   /* default atoms,默认原子 */
 enum { ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle,
-       ClkClientWin, ClkRootWin, ClkLast }; /* clicks */
+       ClkClientWin, ClkRootWin, ClkLast };                     /* clicks */
 
 // 给不同的参数类型做了一个聚合?
 typedef union {
@@ -77,6 +77,8 @@ typedef union {
 	const void *v;
 } Arg;
 
+
+// 按钮
 typedef struct {
 	unsigned int click;
 	unsigned int mask;
@@ -2492,7 +2494,7 @@ int main(int argc, char *argv[]) {
     // 运行前检查其他内容,检查是否启动了dwm之外的窗口管理器
 	checkotherwm();
 
-    // 设置
+    // 初始化全局变量等信息
 	setup();
 // 如果是BSD系统，BSD是一个类Unix系统
 #ifdef __OpenBSD__
@@ -2502,8 +2504,12 @@ int main(int argc, char *argv[]) {
 		die("pledge");
 #endif /* __OpenBSD__ */
 	scan();
+    // 运行更新任务栏的bash
 	runAutostart();
 	run();
+
+
+
 	cleanup();
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;
