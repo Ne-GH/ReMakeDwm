@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 # hddN="/dev/mapper/control" # 显示磁盘剩余容量的磁盘
 
