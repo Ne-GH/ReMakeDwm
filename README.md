@@ -13,7 +13,6 @@
 | config.mk         | make的配置文件          |
 | transient.c       | demo               |
 | Makefile          | make 文件            |
-| dwm.c.rej         | 补丁文件               |
 | sh/dwm-start.sh   | 启动修改dwm状态栏的脚本      |
 | sh/dwm-upstart.sh | 修改dmw状态栏的脚本        |
 
